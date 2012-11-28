@@ -10,7 +10,7 @@ import fr.mertzel.ose.modele.Position;
 
 import java.awt.event.* ;
 
-public class FenetrePrincipale extends JFrame {
+public class FenetrePrincipale extends JFrame  {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -159,9 +159,9 @@ public class FenetrePrincipale extends JFrame {
 		return this.lePlan ;
 	}
 	
-	public void visualiserPlan(){
+	/*public void visualiserPlan(){
 		this.lePlan.repaint() ;
-	}
+	}*/
 	
 	public void afficherMenuContextuel(int x,int y){
 		Position position = new Position(y/Parametres.HAUTEUR_RANGEE,x/Parametres.LARGEUR_TRAVEE) ;
@@ -178,7 +178,7 @@ public class FenetrePrincipale extends JFrame {
 		menuActions.show((Component)lePlan,x,y) ;
 	}
 	
-	public class Plan extends JPanel {
+	public class Plan extends JPanel implements Observateur {
 
 		private static final long serialVersionUID = 1L;
 		
@@ -188,6 +188,8 @@ public class FenetrePrincipale extends JFrame {
 			super() ;
 			this.modele = modele ;
 			this.setBackground(Color.white) ;
+			modele.ajouter(this);
+			this.actualiser();
 		}
 			
 		public void paintComponent(Graphics g){
@@ -196,6 +198,10 @@ public class FenetrePrincipale extends JFrame {
 			this.quadriller(g2d) ;
 			this.placerPostes(g2d) ;
 			this.tracerVisualisations(g2d) ;
+		}
+		
+		public void actualiser() {
+			this.repaint();
 		}
 		
 		private void quadriller(Graphics2D g){
